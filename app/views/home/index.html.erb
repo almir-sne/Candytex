@@ -1,0 +1,5 @@
+
+  <%= form_tag ("/home/print.pdf")  do %>
+    <%=  text_area_tag :input, @input, {"ace-editor" => "", "ace-mode" => "text", "ace-theme" => "github", style: "width: 90%; height: 700px;"} %>
+    <%= submit_tag 'Go 4 it' %>
+<% end %>
