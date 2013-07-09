@@ -4,6 +4,7 @@
     margin: auto;
     height: 200px;
     width: 80%;
+    border-radius: 5px;
 }
 
 .ace_editor.fullScreen {
@@ -29,17 +30,6 @@
     text-align: center;
 }
 
-.large-button {
-    color: lightblue;
-    cursor: pointer;
-    font: 30px arial;
-    padding: 20px;
-    text-align: center;
-    border: medium solid transparent;
-    display: inline-block;
-}
-.large-button:hover {
-    border: medium solid lightgray;
-    border-radius: 10px 10px 10px 10px;
-    box-shadow: 0 0 12px 0 lightblue;
+.toolbar {
+    margin: 10px 0px;
 }

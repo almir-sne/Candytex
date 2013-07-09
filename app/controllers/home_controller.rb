@@ -9,7 +9,9 @@ class HomeController < ApplicationController
 
   def print
     @input = params[:input]
-    puts "input " + @input
+    @filename = params[:filename]
+    result = Latex.generate_pdf(@input, @filename)
+    send_data(result, :filename => "#{@filename}.pdf", :type => "application/pdf")
   end
 
 
@@ -25,4 +27,6 @@ Escreva algo!
 
 \\end{document}"
   end
+
+
 end
