@@ -1,33 +1,62 @@
 class Latex
 
-  def self.generate_pdf(code, filename)
+  def self.generate_pdf(code, filetype)
     dir=File.join(Rails.root,'tmp','rails-latex',"#{Process.pid}-#{Thread.current.hash}")
-    input=File.join(dir,'#{filename}.tex')
+    input=File.join(dir,'input.tex')
     FileUtils.mkdir_p(dir)
     File.open(input,'wb') {|io| io.write(code) }
     Process.waitpid(
       fork do
         begin
           Dir.chdir dir
-          STDOUT.reopen("#{filename}.log","a")
+          STDOUT.reopen("input.log","a")
           STDERR.reopen(STDOUT)
-          args=%w[-shell-escape -interaction batchmode #{filename}.tex]
-          exec "pdflatex",*args
+          compile(filetype)
+          #            args = %w[-shell-escape -interaction batchmode input.tex]
+          #            exec "pdflatex",*args
         rescue
-          File.open("#{filename}.log",'a') {|io|
+          File.open("input.log",'a') {|io|
             io.write("#{$!.message}:\n#{$!.backtrace.join("\n")}\n")
           }
         ensure
           Process.exit! 1
         end
       end)
-    if File.exist?(pdf_file=input.sub(/\.tex$/,'.pdf'))
+    if File.exist?(input.sub(/\.tex$/,".#{filetype}"))
       FileUtils.mv(input.sub(/\.tex$/,'.log'),File.join(dir,'..','input.log'))
-      result=File.read(pdf_file)
+      result=File.read(input.sub(/\.tex$/,".#{filetype}"))
       FileUtils.rm_rf(dir)
     else
       raise "pdflatex failed: See #{input.sub(/\.tex$/,'.log')} for details"
     end
     result
+  end
+
+  def self.compile(filetype)
+    case filetype
+    when "pdf"
+      exec "pdflatex", "input.tex"
+    when "dvi"
+      exec 'latex', "input.tex"
+    end
+  end
+
+  def self.mimetypes(filetype)
+    case filetype
+    when "pdf"
+      "application/pdf"
+    when "dvi"
+      "application/x-dvi"
+    when "tex"
+      "application/x-tex"
+    when "gzip"
+      "application/x-gzip"
+    when "jpeg"
+      "image/jpeg"
+    when "png"
+      "image/png"
+    when "rtf"
+      "text/richtext"
+    end
   end
 end

@@ -1,0 +1,7 @@
+Dependencies:
+latex2rtf
+pdflatex
+ruby 2.0.0
+bundler
+pdf2svg
+dvipng

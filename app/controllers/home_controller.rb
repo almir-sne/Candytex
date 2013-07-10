@@ -10,8 +10,9 @@ class HomeController < ApplicationController
   def print
     @input = params[:input]
     @filename = params[:filename]
-    result = Latex.generate_pdf(@input, @filename)
-    send_data(result, :filename => "#{@filename}.pdf", :type => "application/pdf")
+    @filetype = params[:filetype]
+    result = Latex.generate_pdf(@input, @filetype)
+    send_data(result, :filename => "#{@filename}.#{@filetype}", :type => Latex.mimetypes(@filetype))
   end
 
 

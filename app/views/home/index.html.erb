@@ -1,7 +1,7 @@
 <div class="container">
-  <%= form_tag ("/home/print.pdf"), :class => "form-horizontal"  do %>
+  <%= form_tag :controller => :home, :action => :print, :class => "form-horizontal"  do %>
     <div id="toolbar" class="toolbar">
-      <%= select_tag :filetype, options_for_select(["PDF", "PS", "JPEG", "PNG", "DVI"], @filetype) %>
+      <%= select_tag :filetype, options_for_select(["pdf", "ps", "jpeg", "png", "dvi"], @filetype) %>
     </div>
 
     <%=  text_area_tag :input, @input, {"ace-editor" => "", "ace-mode" => "text", "ace-theme" => "github", style: "width: 100%; height: 700px;"} %>
