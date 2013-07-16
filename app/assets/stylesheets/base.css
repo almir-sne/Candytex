@@ -33,3 +33,6 @@
 .toolbar {
     margin: 10px 0px;
 }
+
+html,body { height: 100%; margin: 0px; padding: 0px; }
+#container {height: 100% }

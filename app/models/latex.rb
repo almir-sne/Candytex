@@ -38,6 +38,10 @@ class Latex
       exec "pdflatex", "input.tex"
     when "dvi"
       exec 'latex', "input.tex"
+    when "html"
+      exec 'hevea', 'input.tex'
+    when "rtf"
+      exec 'latex2rtf', "input.tex"
     end
   end
 
@@ -51,12 +55,17 @@ class Latex
       "application/x-tex"
     when "gzip"
       "application/x-gzip"
+    when "ps"
+      "application/postscript"
     when "jpeg"
       "image/jpeg"
     when "png"
       "image/png"
     when "rtf"
       "text/richtext"
+    when "html"
+      "text/html"
+
     end
   end
 end

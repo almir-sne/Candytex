@@ -3,5 +3,7 @@ latex2rtf
 pdflatex
 ruby 2.0.0
 bundler
-pdf2svg
-dvipng
+pdf2svg *
+dvipng *
+revea
+dvi2ps
