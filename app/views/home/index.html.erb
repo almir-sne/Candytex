@@ -1,19 +1,39 @@
-<div id="container" class="container">
-  <%= form_tag :controller => :home, :action => :print, :class => "form-horizontal"  do %>
-    <div id="toolbar" class="toolbar">
-      <%= select_tag :filetype, options_for_select(["pdf", "ps", "rtf", "html", "dvi"], @filetype) %>
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span2">
+      <div id="welcome">
+        Welcome to CandyTeX! <br/>
+        Sweetest LaTeX editor on the Web!
+      </div>
     </div>
-
-    <%=  text_area_tag :input, @input, {"ace-editor" => "", "ace-mode" => "text", "ace-theme" => "github", style: "width: 100%; height: 100%;"} %>
-    <div id="lower_toolbar" class="toolbar">
-      <%= label_tag :filename, "Filename", :style => "display: inline-block" %>
-      <%= text_field_tag :filename, @filename %>
-      <%= submit_tag 'Generate', :class => "btn btn-primary", :style => "float: right" %>
+    <div class="span8">
+      <%= render :partial => 'toolbar' %>
+      <%= form_tag :controller => :home, :action => :print, :class => "form-horizontal"  do %>
+        <%=  text_area_tag :input, @input, {style: "width: 100%; height: 100%;"} %>
+        <div id="lower_toolbar" class="toolbar">
+          <%= label_tag :filename, "Filename", :style => "display: inline-block" %>
+          <%= text_field_tag :filename, @filename %>
+          <%= label_tag :filetype, "Filetype", :style => "display: inline-block" %>
+          <%= select_tag :filetype, options_for_select(["pdf", "ps", "rtf", "html", "dvi"], @filetype) %>
+          <div class="btn-group" style="margin-bottom: 10px; float: right">
+            <button class="btn" onclick="openfromdisk()" title="Open file from disk"> <i class="icon-folder-open"> </i></button>
+            <button class="btn" onclick="download()" title="Download tex file"> <i class="icon-download-alt"> </i></button>
+            <button class="btn" onclick="envelope()" title="Compile and send by email"> <i class="icon-envelope"> </i></button>
+            <%= submit_tag 'Generate', :class => "btn btn-primary", :style => "float: right" %>
+          </div>
+        </div>
+      <% end %>
     </div>
-
-  <% end %>
+    <div class="offset2"/>
+  </div>
 </div>
 
 <script>
-  $('#input').height($(window).height() * (7/10));
+  $('#input').height($(window).height() * (8/10));
+  $('#input').acedInitTA({theme: 'eclipse', mode: 'latex'});
+  // get linked div
+  var aced_div = $('#input').data('ace-div') //return jQuery object
+  var editor = $(aced_div).aced();
+  editor.setFontSize(12);
+  editor.setPrintMarginColumn(100);
 </script>

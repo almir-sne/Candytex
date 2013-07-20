@@ -24,7 +24,7 @@ class HomeController < ApplicationController
 
 \\begin{document}
 
-Escreva algo!
+Type away!
 
 \\end{document}"
   end

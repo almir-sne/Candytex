@@ -12,8 +12,6 @@ class Latex
           STDOUT.reopen("input.log","a")
           STDERR.reopen(STDOUT)
           compile(filetype)
-          #            args = %w[-shell-escape -interaction batchmode input.tex]
-          #            exec "pdflatex",*args
         rescue
           File.open("input.log",'a') {|io|
             io.write("#{$!.message}:\n#{$!.backtrace.join("\n")}\n")
