@@ -1,5 +1,15 @@
 <div id="toolbar" class="toolbar btn-toolbar">
   <div class="btn-group">
+    <%= select_tag :themes, options_for_select([:chaos, :cobalt, :dawn, :eclipse, :merbivore, :mono_industrial, :monokai,
+    :pastel_on_dark, :solarized_dark, :textmate, :tomorrow, :tomorrow_night, :tomorrow_night_blue,
+    :tomorrow_night_bright, :twilight, :xcode], :eclipse), :onchange => "switchtheme(this)", :style => "width: 180px" %>
+    
+    <%= select_tag :fonts, options_for_select(['Font size', :tiny, :scriptsize, :footnotesize, :small, :normalsize, :large, :Large, :LARGE,
+        :huge, :Huge]), :onchange => "latexfont(this)", :style => "width: 118px; margin-left: 6px;" %>
+  </div>
+
+  <br/>
+  <div class="btn-group">
     <button class="btn" onclick="italic()" title="Italic"> <i class="icon-italic"> </i> </button>
     <button class="btn" onclick="bold()" title="Bold"> <i class="icon-bold"> </i> </button>
     <button class="btn" onclick="superscript()" title="Superscript"> <i class="icon-superscript"> </i></button>
@@ -31,5 +41,7 @@
   <div class="btn-group">
     <button class="btn" onclick="help()" title="Help"> <i class="icon-exclamation-sign"> </i></button>
   </div>
+
+  
 </div>
 

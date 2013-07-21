@@ -6,7 +6,9 @@ AcedRails.configure do |config|
   #   mono_industrial, monokai, pastel_on_dark, solarized_dark, solarized_light, textmate,
   #   tomorrow, tomorrow_night, tomorrow_night_blue, tomorrow_night_bright,
   #   tomorrow_night_eighties, twilight, vibrant_ink, xcode
-  config.themes = [:eclipse, :xcode]
+  config.themes = [:chaos, :cobalt, :dawn, :eclipse, :merbivore, :mono_industrial, :monokai,
+    :pastel_on_dark, :solarized_dark, :textmate, :tomorrow, :tomorrow_night, :tomorrow_night_blue,
+    :tomorrow_night_bright, :twilight, :xcode]
 
   # select modes
   # available modes:

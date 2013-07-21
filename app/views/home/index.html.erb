@@ -2,14 +2,16 @@
   <div class="row-fluid">
     <div class="span2">
       <div id="welcome">
-        Welcome to CandyTeX! <br/>
-        Sweetest LaTeX editor on the Web!
+        Welcome to CandyT<sub>E</sub>X! <br/>
+        Sweetest L<sup>A</sup>T<sub>E</sub>X editor on the Web!
       </div>
     </div>
+
     <div class="span8">
       <%= render :partial => 'toolbar' %>
       <%= form_tag :controller => :home, :action => :print, :class => "form-horizontal"  do %>
-        <%=  text_area_tag :input, @input, {style: "width: 100%; height: 100%;"} %>
+        <%=  text_area_tag :input, @input, {style: "width: 100%"} %>
+
         <div id="lower_toolbar" class="toolbar">
           <%= label_tag :filename, "Filename", :style => "display: inline-block" %>
           <%= text_field_tag :filename, @filename %>
@@ -17,8 +19,13 @@
           <%= select_tag :filetype, options_for_select(["pdf", "ps", "rtf", "html", "dvi"], @filetype) %>
           <div class="btn-group" style="margin-bottom: 10px; float: right">
             <button class="btn" onclick="openfromdisk()" title="Open file from disk"> <i class="icon-folder-open"> </i></button>
-            <button class="btn" onclick="download()" title="Download tex file"> <i class="icon-download-alt"> </i></button>
-            <button class="btn" onclick="envelope()" title="Compile and send by email"> <i class="icon-envelope"> </i></button>
+            <button type="submit" name="commit" class="btn" value="Download" title="Download tex file">
+              <i class="icon-download-alt"> </i>
+            </button>
+            <button type="submit" name="commit" class="btn" value="Email" title="Compile and send by email">
+              <i class="icon-envelope">  </i>
+            </button>
+            <input type="file" id="file-handler" name="file"/>
             <%= submit_tag 'Generate', :class => "btn btn-primary", :style => "float: right" %>
           </div>
         </div>
@@ -29,11 +36,17 @@
 </div>
 
 <script>
-  $('#input').height($(window).height() * (8/10));
-  $('#input').acedInitTA({theme: 'eclipse', mode: 'latex'});
-  // get linked div
-  var aced_div = $('#input').data('ace-div') //return jQuery object
-  var editor = $(aced_div).aced();
-  editor.setFontSize(12);
-  editor.setPrintMarginColumn(100);
+  setup();
+</script>
+
+<script>
+  file_handler = document.getElementById("file-handler")
+  file_handler.addEventListener("change", function(event) {
+    var reader = new FileReader();
+    reader.onload = function(event) {
+      var contents = event.target.result;
+      setfile(contents);
+    };
+    reader.readAsText(file_handler.files[0]);
+}, false);
 </script>
