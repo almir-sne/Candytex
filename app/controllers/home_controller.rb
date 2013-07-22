@@ -1,10 +1,7 @@
 class HomeController < ApplicationController
 
   def index
-    @input = params[:input]
-    if @input.blank?
-      @input = example()
-    end
+
   end
 
   def print
@@ -17,6 +14,7 @@ class HomeController < ApplicationController
 
     if params[:commit] == 'Download'
       result = @input
+      @filetype = 'tex'
     else
       result = Latex.generate_pdf(@input, @filetype)
     end

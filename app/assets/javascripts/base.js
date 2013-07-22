@@ -1,14 +1,30 @@
 var editor;
 
 function setup() {
+    /* get textarea and use it to create editor */
     $('#input').height($(window).height() * (7/10));
     $('#input').acedInitTA({
         theme: 'eclipse',
         mode: 'latex'
     });
     editor = $($('#input').data('ace-div')).aced();
+
+    /* initial config */
     editor.setFontSize(12);
     editor.setPrintMarginColumn(-1);
+    setEditorValue(getTemplate(''));
+
+    /* file reader handler */
+    file_handler = document.getElementById("file-handler");
+    file_handler.addEventListener("change", function(event) {
+        var reader = new FileReader();
+        reader.onload = function(event) {
+            var contents = event.target.result;
+            setEditorValue(contents);
+        };
+        reader.readAsText(file_handler.files[0]);
+    }, false);
+    new Konami(function() { setEditorValue(getTemplate('konami'))});
 }
 
 function italic() {
@@ -67,19 +83,25 @@ function insert_on_range(start, end) {
     editor.focus();
 }
 
-// "Workaround" because editor.destroy() doesn't work
+
 function cleareditor() {
-    setfile('');
+    setEditorValue('');
 }
 
-function setfile(val) {
+// "Workaround" because editor.destroy() doesn't work
+function setEditorValue(val) {
     editor.setValue(val, 0);
     editor.focus();
+    editor.clearSelection();
 }
 
 function switchtheme(theme) {
     editor.setTheme("ace/theme/" + theme.options[theme.selectedIndex].value);
     editor.focus();
+}
+
+function openfromdisk() {
+    document.getElementById("file-handler").click();
 }
 // p/ navegador de seções
 // gotoLine(Number lineNumber, Number column, Boolean animate)

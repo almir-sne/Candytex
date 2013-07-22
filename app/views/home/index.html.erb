@@ -17,15 +17,14 @@
           <%= text_field_tag :filename, @filename %>
           <%= label_tag :filetype, "Filetype", :style => "display: inline-block" %>
           <%= select_tag :filetype, options_for_select(["pdf", "ps", "rtf", "html", "dvi"], @filetype) %>
+
           <div class="btn-group" style="margin-bottom: 10px; float: right">
-            <button class="btn" onclick="openfromdisk()" title="Open file from disk"> <i class="icon-folder-open"> </i></button>
             <button type="submit" name="commit" class="btn" value="Download" title="Download tex file">
               <i class="icon-download-alt"> </i>
             </button>
             <button type="submit" name="commit" class="btn" value="Email" title="Compile and send by email">
               <i class="icon-envelope">  </i>
             </button>
-            <input type="file" id="file-handler" name="file"/>
             <%= submit_tag 'Generate', :class => "btn btn-primary", :style => "float: right" %>
           </div>
         </div>
@@ -35,18 +34,8 @@
   </div>
 </div>
 
-<script>
-  setup();
-</script>
+<%= render :partial => 'help' %>
 
 <script>
-  file_handler = document.getElementById("file-handler")
-  file_handler.addEventListener("change", function(event) {
-    var reader = new FileReader();
-    reader.onload = function(event) {
-      var contents = event.target.result;
-      setfile(contents);
-    };
-    reader.readAsText(file_handler.files[0]);
-}, false);
+ setup();
 </script>
