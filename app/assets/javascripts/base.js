@@ -24,7 +24,13 @@ function setup() {
         };
         reader.readAsText(file_handler.files[0]);
     }, false);
-    new Konami(function() { setEditorValue(getTemplate('konami'))});
+    new Konami(function() {
+        setEditorValue(getTemplate('konami'))
+    });
+    $('.dropdown-menu').find('input').click(function (e) {
+        e.stopPropagation();
+    });
+
 }
 
 function italic() {
@@ -62,6 +68,18 @@ function aligncenter() {
 function latexfont(seletion) {
     if (seletion.selectedIndex != 0)
         insert_on_range("{\\" + seletion.options[seletion.selectedIndex].value + " ", "}");
+}
+
+function createTable() {
+    insert_on_range("\\begin{table}\n\n \\begin{tabular}\n\n \\end{tabular}\n\n \\caption{", "}\n\\end{table}");
+}
+
+function createBullet() {
+    insert_on_range("\\begin{itemize}\n \\item ", "\n \\item \n\\end{itemize}");
+}
+
+function createNumbered() {
+    insert_on_range("\\begin{enumerate}\n \\item ", "\n \\item \n\\end{enumerate}");
 }
 
 function fontplus() {
