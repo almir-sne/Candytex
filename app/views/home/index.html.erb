@@ -5,6 +5,10 @@
         Welcome to CandyT<sub>E</sub>X! <br/>
         Sweetest L<sup>A</sup>T<sub>E</sub>X editor on the Web!
       </div>
+
+      <button onclick="retrieveAllFiles()"> list </button>
+      <input type="button" id="authorizeButton" value="Authorize" />
+      <div id="list"> </div>
     </div>
 
     <div class="span8">
@@ -36,6 +40,3 @@
 
 <%= render :partial => 'help' %>
 
-<script>
- setup();
-</script>

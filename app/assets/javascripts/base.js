@@ -13,7 +13,6 @@ function setup() {
     editor.setFontSize(12);
     editor.setPrintMarginColumn(-1);
     setEditorValue(getTemplate(''));
-
     /* file reader handler */
     file_handler = document.getElementById("file-handler");
     file_handler.addEventListener("change", function(event) {
@@ -30,7 +29,8 @@ function setup() {
     $('.dropdown-menu').find('input').click(function (e) {
         e.stopPropagation();
     });
-
+//    $('.ace_scrollbar-inner').jScrollPane({mouseWheelSpeed: 50});
+    handleClientLoad();
 }
 
 function italic() {

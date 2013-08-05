@@ -10,11 +10,13 @@
     <%=  javascript_include_tag "bootstrap.min"%>
     <%=  javascript_include_tag "konami"%>
     <%=  javascript_include_tag "templates"%>
+    <%=  javascript_include_tag "client"%>
+    <%=  javascript_include_tag "drive"%>
     <%= aced_tag %>
     <%=  javascript_include_tag "base"%>
 
   </head>
-  <body>
+  <body onload="setup()">
 
     <%= yield %>
 
