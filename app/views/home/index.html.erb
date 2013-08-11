@@ -6,32 +6,14 @@
         Sweetest L<sup>A</sup>T<sub>E</sub>X editor on the Web!
       </div>
 
-      <button onclick="retrieveAllFiles()"> list </button>
-      <input type="button" id="authorizeButton" value="Authorize" />
+      <button id="authorization" class="btn btn-primary"> Connect with Google Drive!</button>
       <div id="list"> </div>
     </div>
-
     <div class="span8">
       <%= render :partial => 'toolbar' %>
       <%= form_tag :controller => :home, :action => :print, :class => "form-horizontal"  do %>
         <%=  text_area_tag :input, @input, {style: "width: 100%"} %>
-
-        <div id="lower_toolbar" class="toolbar">
-          <%= label_tag :filename, "Filename", :style => "display: inline-block" %>
-          <%= text_field_tag :filename, @filename %>
-          <%= label_tag :filetype, "Filetype", :style => "display: inline-block" %>
-          <%= select_tag :filetype, options_for_select(["pdf", "ps", "rtf", "html", "dvi"], @filetype) %>
-
-          <div class="btn-group" style="margin-bottom: 10px; float: right">
-            <button type="submit" name="commit" class="btn" value="Download" title="Download tex file">
-              <i class="icon-download-alt"> </i>
-            </button>
-            <button type="submit" name="commit" class="btn" value="Email" title="Compile and send by email">
-              <i class="icon-envelope">  </i>
-            </button>
-            <%= submit_tag 'Generate', :class => "btn btn-primary", :style => "float: right" %>
-          </div>
-        </div>
+        <%= render :partial => 'lower_toolbar' %>
       <% end %>
     </div>
     <div class="offset2"/>

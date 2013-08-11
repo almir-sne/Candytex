@@ -16,13 +16,15 @@ function checkAuth() {
 }
 
 function handleAuthResult(authResult) {
-    var authButton = $('#authorizeButton');
+    var authButton = $('#authorization');
+    var filePicker = $('#list');
     authButton.css('display', 'none');
+    filePicker.css('display', 'none');
     if (authResult && !authResult.error) {
-        // Access token has been successfully retrieved, requests can be sent to the API.
-        
+        filePicker.css('display', 'block');
+        filePicker.html("<i class=\"icon-spinner icon-spin icon-4x rotating-icon\"></i>");
+        loadAPI(retrieveValidFiles);
     } else {
-        // No access token could be retrieved, show the button to start the authorization flow.
         authButton.css('display', 'block');
         authButton.onclick = function() {
             gapi.auth.authorize(
@@ -36,97 +38,35 @@ function handleAuthResult(authResult) {
     }
 }
 
-/**
-             * Start the file upload.
-             *
-             * @param {Object} evt Arguments from the file selector.
-             */
-//            function uploadFile(evt) {
-//                gapi.client.load('drive', 'v2', function() {
-//                    var file = evt.target.files[0];
-//                    insertFile(file);
-//                });
-//            }
-
-/**
-             * Insert new file.
-             *
-             * @param {File} fileData File object to read data from.
-             * @param {Function} callback Function to call when the request is complete.
-             */
-//            function insertFile(fileData, callback) {
-//                const boundary = '-------314159265358979323846';
-//                const delimiter = "\r\n--" + boundary + "\r\n";
-//                const close_delim = "\r\n--" + boundary + "--";
-//
-//                var reader = new FileReader();
-//                reader.readAsBinaryString(fileData);
-//                reader.onload = function(e) {
-//                    var contentType = fileData.type || 'application/octet-stream';
-//                    var metadata = {
-//                        'title': fileData.name,
-//                        'mimeType': contentType
-//                    };
-//
-//                    var base64Data = btoa(reader.result);
-//                    var multipartRequestBody =
-//                        delimiter +
-//                        'Content-Type: application/json\r\n\r\n' +
-//                        JSON.stringify(metadata) +
-//                        delimiter +
-//                        'Content-Type: ' + contentType + '\r\n' +
-//                        'Content-Transfer-Encoding: base64\r\n' +
-//                        '\r\n' +
-//                        base64Data +
-//                        close_delim;
-//
-//                    var request = gapi.client.request({
-//                        'path': '/upload/drive/v2/files',
-//                        'method': 'POST',
-//                        'params': {'uploadType': 'multipart'},
-//                        'headers': {
-//                            'Content-Type': 'multipart/mixed; boundary="' + boundary + '"'
-//                        },
-//                        'body': multipartRequestBody});
-//                    if (!callback) {
-//                        callback = function(file) {
-//                            console.log(file)
-//                        };
-//                    }
-//                    request.execute(callback);
-//                }
-//            }
-
-
-function list () {
-    gapi.client.load('drive', 'v2', retrieveAllFiles());
-}
-
 function buildList(response) {
-    var html_list = "<ul> "
+    var list = $('#list');
+    var html_list = '<ul> '
     for (var i = 0; i < response.length; i++) {
-        html_list += "<li> " + response[i].title + " </li>";
+        html_list += '<li onclick="fileClick(\'' + response[i].id + '\')"';
+        if (i % 2 == 0)
+            html_list += 'class="corsim"> ';
+        else
+            html_list += 'class="cornao"> ';
+        html_list += response[i].title + ' </li>';
     }
-    html_list += "</ul> "
-    $('#list').html(html_list);
-    $('#list').height($(window).height() * (6/10));
-    $('#list').css('display', 'block');
-//    $('#list').jScrollPane({mouseWheelSpeed: 50});
-
+    html_list += '</ul> ';
+    list.html(html_list);
+    list.height($(window).height() * (6/10));
+    list.css('display', 'block');
 }
 
-function retrieveAllFiles() {
-    gapi.client.load('drive', 'v2');
-    callback = function(file) {
+function loadAPI(request) {
+    gapi.client.load('drive', 'v2', request);
+}
 
-        console.log(file)
-    };
+function retrieveValidFiles() {
     var retrievePageOfFiles = function(request, result) {
         request.execute(function(resp) {
             result = result.concat(resp.items);
             var nextPageToken = resp.nextPageToken;
             if (nextPageToken) {
                 request = gapi.client.drive.files.list({
+                    'maxResults' : 1000,
                     'pageToken': nextPageToken
                 });
                 retrievePageOfFiles(request, result);
@@ -134,15 +74,39 @@ function retrieveAllFiles() {
                 buildList(result);
             }
         });
-    }
 
-    var initialRequest = gapi.client.request({
-        'path': '/drive/v2/files',
-        'method': 'GET',
-        'params': {
-            'maxResults': '10'
-        }
+    }
+    var request = gapi.client.drive.files.list({
+        'q' : "mimeType != 'application/vnd.google-apps.folder' and trashed = false",
+        'maxResults' : 1000
     });
-    var result = retrievePageOfFiles(initialRequest, []);
+    retrievePageOfFiles(request, []);
 }
 
+function fileClick(fileId) {
+    var request = gapi.client.drive.files.get({
+        'fileId': fileId
+    });
+    request.execute(function(resp) {
+        var url;
+        if (resp.mimeType == 'text/x-tex' || resp.mimeType == 'text/plain')
+            url = resp.downloadUrl;
+        else if (resp.mimeType == "application/vnd.google-apps.document")
+            url = resp['exportLinks']['text/plain'];
+        else
+            alert('Unsuported file format!');
+        if (url) {
+            var accessToken = gapi.auth.getToken().access_token;
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', url);
+            xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
+            xhr.onload = function() {
+                setEditorValue(xhr.responseText);
+            };
+            xhr.onerror = function() {
+                alert('Error loading file!');
+            };
+            xhr.send();
+        }
+    });
+}

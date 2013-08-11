@@ -2,7 +2,8 @@ var editor;
 
 function setup() {
     /* get textarea and use it to create editor */
-    $('#input').height($(window).height() * (7/10));
+    $('#list').height($(window).height() - 100 - $("#welcome").height());
+    $('#input').height($(window).height() - 60 - $("#toolbar").height() - $("#lower_toolbar").height());
     $('#input').acedInitTA({
         theme: 'eclipse',
         mode: 'latex'
@@ -29,9 +30,9 @@ function setup() {
     $('.dropdown-menu').find('input').click(function (e) {
         e.stopPropagation();
     });
-//    $('.ace_scrollbar-inner').jScrollPane({mouseWheelSpeed: 50});
     handleClientLoad();
 }
+
 
 function italic() {
     insert_on_range("\\textit{", "}");
@@ -65,9 +66,16 @@ function aligncenter() {
     insert_on_range("\\begin{center}\n", "\n\\end{center}");
 }
 
-function latexfont(seletion) {
-    if (seletion.selectedIndex != 0)
-        insert_on_range("{\\" + seletion.options[seletion.selectedIndex].value + " ", "}");
+function latexfont() {
+    var font = $('#fonts').val();
+    if (font != 'Font size')
+        insert_on_range("{\\" + font + " ", "}");
+}
+
+function latexSection() {
+    var section = $('#section').val();
+    if (section != 'Sectioning')
+        insert_on_range("\\" + section + "{", "}");
 }
 
 function createTable() {

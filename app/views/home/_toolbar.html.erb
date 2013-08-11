@@ -5,7 +5,11 @@
         :tomorrow_night_bright, :twilight, :xcode], :eclipse), :onchange => "switchtheme(this)", :style => "width: 180px" %>
 
     <%= select_tag :fonts, options_for_select(['Font size', :tiny, :scriptsize, :footnotesize, :small, :normalsize, :large, :Large, :LARGE,
-        :huge, :Huge]), :onchange => "latexfont(this)", :style => "width: 118px; margin-left: 6px;" %>
+        :huge, :Huge]), :onchange => "latexfont()", :style => "width: 118px; margin-left: 6px;" %>
+
+    <%= select_tag :section, options_for_select(['Sectioning', "part", "chapter", "section", "subsection",
+        "subsubsection", "paragraph", "subparagraph", "part*", "chapter*", "section*", "subsection*", "subsubsection*",
+        "paragraph*", "subparagraph*"]), :onchange => "latexSection()", :style => "width: 116px; margin-left: 6px;" %>
   </div>
 
   <br/>

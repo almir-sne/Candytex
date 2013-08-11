@@ -21,20 +21,4 @@ class HomeController < ApplicationController
     
     send_data(result, :filename => "#{@filename}.#{@filetype}", :type => Latex.mimetypes(@filetype))
   end
-
-
-  def example
-    "\\documentclass[12pt,a4paper]{report}
-\\usepackage[portuguese]{babel}
-\\usepackage[T1]{fontenc}
-\\usepackage[utf8]{inputenc}
-
-\\begin{document}
-
-Type away!
-
-\\end{document}"
-  end
-
-
 end

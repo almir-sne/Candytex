@@ -52,6 +52,46 @@ html,body { height: 100%; margin: 0px; padding: 0px; background-color: ghostwhit
     border-style: dashed;
 }
 
+#list {
+    overflow-y: scroll;
+    border: 3px inset #3399ff;
+    display: none;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    height: 100px;
+    word-wrap: break-word;
+    padding: 0;
+}
+
+#list ul {
+    list-style-type: none;
+    margin: 0;
+}
+
+#list li {
+    padding: 3px 10px;
+}
+
+#list li:hover {
+    background-color: #3399ff;
+    color: white;
+}
+
+#authorization {
+    margin: 10px;
+}
+
+.corsim {
+    background-color: #DFEFFF;
+    cursor: pointer;
+}
+
+.cornao {
+    background-color: #FFFFFF;
+    cursor: pointer;
+}
+
 #secret {
     color: white;
 }
@@ -60,15 +100,10 @@ html,body { height: 100%; margin: 0px; padding: 0px; background-color: ghostwhit
     color: black;
 }
 
-#list {
-    overflow: scroll;
-    border: 3px inset #3399ff;
-    display: none;
-}
-
-.jspDrag {
-    background-color: #3399ff;
-    border-radius: 10px;
+.rotating-icon {
+    margin-left: 30%;
+    margin-top: 30%;
+    color: #3399ff;
 }
 
 ::-webkit-scrollbar {
