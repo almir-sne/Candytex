@@ -17,12 +17,9 @@ function checkAuth() {
 
 function handleAuthResult(authResult) {
     var authButton = $('#authorization');
-    var filePicker = $('#list');
     authButton.css('display', 'none');
-    filePicker.css('display', 'none');
     if (authResult && !authResult.error) {
-        filePicker.css('display', 'block');
-        filePicker.html("<i class=\"icon-spinner icon-spin icon-4x rotating-icon\"></i>");
+        activateSpinner();
         loadAPI(retrieveValidFiles);
     } else {
         authButton.css('display', 'block');
@@ -53,6 +50,7 @@ function buildList(response) {
     list.html(html_list);
     list.height($(window).height() * (6/10));
     list.css('display', 'block');
+    deactivateSpinner();
 }
 
 function loadAPI(request) {
@@ -84,6 +82,7 @@ function retrieveValidFiles() {
 }
 
 function fileClick(fileId) {
+    activateSpinner();
     var request = gapi.client.drive.files.get({
         'fileId': fileId
     });
@@ -102,6 +101,7 @@ function fileClick(fileId) {
             xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
             xhr.onload = function() {
                 setEditorValue(xhr.responseText);
+                deactivateSpinner();
             };
             xhr.onerror = function() {
                 alert('Error loading file!');

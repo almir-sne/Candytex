@@ -106,6 +106,12 @@ html,body { height: 100%; margin: 0px; padding: 0px; background-color: ghostwhit
     color: #3399ff;
 }
 
+#spinner {
+    width: 90%;
+    margin: 5px;
+    margin-left: 5%;
+}
+
 ::-webkit-scrollbar {
     width: 10px;
 }

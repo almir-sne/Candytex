@@ -2,7 +2,7 @@ var editor;
 
 function setup() {
     /* get textarea and use it to create editor */
-    $('#list').height($(window).height() - 100 - $("#welcome").height());
+    $('#list').height($(window).height() - 120 - $("#welcome").height());
     $('#input').height($(window).height() - 60 - $("#toolbar").height() - $("#lower_toolbar").height());
     $('#input').acedInitTA({
         theme: 'eclipse',
@@ -109,12 +109,11 @@ function insert_on_range(start, end) {
     editor.focus();
 }
 
-
+// "Workaround" because editor.destroy() doesn't work
 function cleareditor() {
     setEditorValue('');
 }
 
-// "Workaround" because editor.destroy() doesn't work
 function setEditorValue(val) {
     editor.setValue(val, 0);
     editor.focus();
@@ -128,6 +127,14 @@ function switchtheme(theme) {
 
 function openfromdisk() {
     document.getElementById("file-handler").click();
+}
+
+function activateSpinner() {
+    $('#spinner').css('display', 'block');
+}
+
+function deactivateSpinner() {
+    $('#spinner').css('display', 'none');
 }
 // p/ navegador de seções
 // gotoLine(Number lineNumber, Number column, Boolean animate)
