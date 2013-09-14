@@ -1,16 +1,33 @@
 <div id="lower_toolbar" class="toolbar">
   <%= label_tag :filename, "Filename", :style => "display: inline-block" %>
-  <%= text_field_tag :filename, @filename %>
+  <%= text_field_tag :filename, @filename, :style => "width: 150px"%>
   <%= label_tag :filetype, "Filetype", :style => "display: inline-block" %>
-  <%= select_tag :filetype, options_for_select(["pdf", "ps", "rtf", "html", "dvi"], @filetype) %>
+  <%= select_tag :filetype, options_for_select(["pdf", "ps", "rtf", "html", "dvi"], @filetype), :style => "width: 150px"%>
 
-  <div class="btn-group" style="margin-bottom: 10px; float: right">
-    <button type="submit" name="commit" class="btn" value="Download" title="Download tex file">
-      <i class="icon-download-alt"> </i>
-    </button>
-    <button type="submit" name="commit" class="btn" value="Email" title="Compile and send by email">
-      <i class="icon-envelope">  </i>
-    </button>
-    <%= submit_tag 'Generate', :class => "btn btn-primary" %>
+  <input type="file" id="file-handler" name="file" style="display: none"/>
+
+  <div class="btn-toolbar" style="margin-bottom: 10px; margin-top: 0; float: right">
+    <div class="btn-group">
+      <button type="button" class="btn" title="Download tex file">
+        <i class="icon-download-alt"> </i>
+      </button>
+      <button type="button" class="btn" onclick="openfromdisk()" title="Open file from disk">
+        <i class="icon-folder-open"> </i>
+      </button>
+      <button type="button" class="btn" onclick="cleareditor()" title="Clear editor">
+        <i class="icon-trash"> </i>
+      </button>
+    </div>
+
+    <div class="btn-group">
+      <button type="submit" name="commit" class="btn" value="Email" title="Compile and send by email">
+        <i class="icon-envelope">  </i>
+      </button>
+      <button type="button" class="btn" title="Compile and upload">
+        <i class="icon-cloud-upload"> </i>
+      </button>
+      <%= submit_tag 'Generate', :class => "btn btn-primary" %>
+    </div>
   </div>
+
 </div>

@@ -2,14 +2,21 @@
   <div class="btn-group">
     <%= select_tag :themes, options_for_select([:chaos, :cobalt, :dawn, :eclipse, :merbivore, :mono_industrial, :monokai,
         :pastel_on_dark, :solarized_dark, :textmate, :tomorrow, :tomorrow_night, :tomorrow_night_blue,
-        :tomorrow_night_bright, :twilight, :xcode], :eclipse), :onchange => "switchtheme(this)", :style => "width: 180px" %>
+        :tomorrow_night_bright, :twilight, :xcode], :eclipse), :onchange => "switchtheme(this)", :style => "width: 180px; margin: 5px; margin-left: 0px" %>
 
-    <%= select_tag :fonts, options_for_select(['Font size', :tiny, :scriptsize, :footnotesize, :small, :normalsize, :large, :Large, :LARGE,
-        :huge, :Huge]), :onchange => "latexfont()", :style => "width: 118px; margin-left: 6px;" %>
+    <div class="btn-group">
+      <button class="btn" onclick="fontplus()" title="Bigger font"> <i class="icon-zoom-in"> </i></button>
+      <button class="btn" onclick="fontminus()" title="Smaller font"> <i class="icon-zoom-out"> </i></button>
+    </div>
 
-    <%= select_tag :section, options_for_select(['Sectioning', "part", "chapter", "section", "subsection",
-        "subsubsection", "paragraph", "subparagraph", "part*", "chapter*", "section*", "subsection*", "subsubsection*",
-        "paragraph*", "subparagraph*"]), :onchange => "latexSection()", :style => "width: 116px; margin-left: 6px;" %>
+    <div class="btn-group">
+      <button class="btn" title="Redo"> <i class="icon-repeat"> </i></button>
+      <button class="btn" title="Undo"> <i class="icon-rotate-left"> </i></button>
+    </div>
+
+    <div class="btn-group">
+      <button href="#help" class="btn" data-toggle="modal"><i class="icon-exclamation-sign"> </i> </button>
+    </div>
   </div>
   <br/>
   <div class="btn-group">
@@ -29,23 +36,14 @@
   <div class="btn-group">
     <button onclick="createNumbered()" class="btn" title="Create numbered list"> <i class="icon-list-ol"> </i> </button>
     <button onclick="createBullet()" class="btn" title="Create bullet list"> <i class="icon-list-ul"> </i> </button>
-    <button class="btn" title="Create table"> <i class="icon-table" onclick="createTable()"> </i> </button>
+    <button  onclick="createTable()" class="btn" title="Create table"> <i class="icon-table"> </i> </button>
   </div>
 
-  <div class="btn-group">
-    <button class="btn" onclick="fontplus()" title="Bigger font"> <i class="icon-zoom-in"> </i></button>
-    <button class="btn" onclick="fontminus()" title="Smaller font"> <i class="icon-zoom-out"> </i></button>
-  </div>
+  <%= select_tag :section, options_for_select(['Sectioning', "part", "chapter", "section", "subsection",
+      "subsubsection", "paragraph", "subparagraph", "part*", "chapter*", "section*", "subsection*", "subsubsection*",
+      "paragraph*", "subparagraph*"]), :onchange => "latexSection()", :style => "width: 116px; margin: 5px;" %>
 
-  <div class="btn-group">
-    <input type="file" id="file-handler" name="file" style="display: none"/>
-    <button class="btn" onclick="openfromdisk()" title="Open file from disk"> <i class="icon-folder-open"> </i></button>
-    <button class="btn" onclick="cleareditor()" title="Clear editor"> <i class="icon-trash"> </i></button>
-  </div>
-
-  <div class="btn-group">
-    <button href="#help" class="btn" data-toggle="modal"><i class="icon-exclamation-sign"> </i> </button>
-  </div>
-
+  <%= select_tag :fonts, options_for_select(['Font size', :tiny, :scriptsize, :footnotesize, :small, :normalsize, :large, :Large, :LARGE,
+      :huge, :Huge]), :onchange => "latexfont()", :style => "width: 118px; margin: 5px;" %>
 </div>
 
