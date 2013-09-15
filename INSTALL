@@ -1,9 +1,47 @@
-Dependencies:
-latex2rtf
-pdflatex
-ruby 2.0.0
-bundler
-pdf2svg *
-dvipng *
-revea
-dvi2ps
+1 - Installing the necessary packages
+Depending on Linux distro you may have to switch the "apt-get", but the rest should be right...
+
+sudo apt-get install texlive-latex-extra latex2rtf dvi2ps revea curl
+
+texlive-latex-extra -> Will tons of latex stuff along with the base package.
+latex2rtf -> For Rich Text Format support.
+dvi2ps -> PostScript conversion for the three people in the universe that still needs it.
+revea -> Best Latex to HTML converter I could find.
+curl -> need for RVM, if you don't want to use RVM you can safely skip this one.
+
+2 - Installing Ruby
+Currently the best way to install Ruby is to use RVM, it automagically downloads, compiles and
+install the requested Ruby version and its dependencies.
+
+The official RVM site is: rvm.io
+
+Here the quick and dirty way to get it running:
+\curl -L https://get.rvm.io | bash
+
+Then restart bash and type "rvm version" to see if it was correctly installed. If rvm is still
+as stupid as the last time I tried to install you may have to add the following lines to your
+.bashrc file (found on your home folder):
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+PATH=$PATH:$HOME/.rvm/bin
+
+If rvm is working properly, type "rvm install 2.0", this will install Ruby 2.0 on your machine,
+after the instalation type "rvm use 2.0" to tell it to run this version.
+
+3 - Installing the gems
+After dying of boredom because installing Ruby takes a whole week, it's time to die of nostalgia
+(and more boredom) as the gems slowly trickle down your optic fiber connection as if it was a
+dial up connection, YAY!
+
+Open up your favorite terminal, go to the CandyTeX directory and simply type "bundle" and press
+enter to see magic happening.
+
+4 - Running it locally
+If by some miracle you didn't die of old age waiting for bundle to finish, now you can easily run
+the application by typing "rails s" this will boot a barebones rails server, press Ctrl + C when
+you want to stop it. Now the site is accessible through the address "localhost:3000".
+
+5 - Running it on Apache
+First of all hire an exorcist priest, buy lots of coffee and painkillers, finally set aside 10 hours
+of your day to configure Apache to run with Rails while the poor priest exorcises the demons infesting
+whatever the Apache team calls a "stable" version nowadays... or you can use the gem passenger that
+will do most of the work for you, the priest might still be necessary though.

@@ -8,8 +8,6 @@ gem 'rails', '3.2.13'
 gem 'sqlite3'
 gem 'execjs', '~>1.4.0'
 gem "therubyracer", :require => 'v8'
-gem "google_drive", "~> 0.3"
-gem "rails-latex", "~> 1.0.11"
 gem "aced_rails"
 gem 'turbolinks'
 
