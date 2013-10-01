@@ -34,7 +34,7 @@
     margin: 10px 0px;
 }
 
-html,body { height: 100%; margin: 0px; padding: 0px; background-color: ghostwhite;}
+html,body { margin: 0px; padding: 0px; background-color: ghostwhite;}
 #container {height: 100% }
 
 #welcome {
@@ -110,6 +110,14 @@ html,body { height: 100%; margin: 0px; padding: 0px; background-color: ghostwhit
     width: 90%;
     margin: 5px;
     margin-left: 5%;
+}
+
+#drive-file {
+    background-color: #DFEFFF;
+    border-radius: 10px;
+    margin: 10px;
+    padding: 10px;
+    display: none
 }
 
 ::-webkit-scrollbar {

@@ -2,7 +2,6 @@ var editor;
 
 function setup() {
     /* get textarea and use it to create editor */
-    $('#list').height($(window).height() - 120 - $("#welcome").height());
     $('#input').height($(window).height() - 60 - $("#toolbar").height() - $("#lower_toolbar").height());
     $('#input').acedInitTA({
         theme: 'eclipse',
@@ -11,7 +10,7 @@ function setup() {
     editor = $($('#input').data('ace-div')).aced();
 
     /* initial config */
-    editor.setFontSize(12);
+    editor.setFontSize(14);
     editor.setPrintMarginColumn(-1);
     setEditorValue(getTemplate(''));
     /* file reader handler */
@@ -129,13 +128,6 @@ function openfromdisk() {
     document.getElementById("file-handler").click();
 }
 
-function activateSpinner() {
-    $('#spinner').css('display', 'block');
-}
-
-function deactivateSpinner() {
-    $('#spinner').css('display', 'none');
-}
 // p/ navegador de seções
 // gotoLine(Number lineNumber, Number column, Boolean animate)
 //

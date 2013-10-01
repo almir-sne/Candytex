@@ -17,12 +17,12 @@ function checkAuth() {
 
 function handleAuthResult(authResult) {
     var authButton = $('#authorization');
-    authButton.css('display', 'none');
+    authButton.hide();
     if (authResult && !authResult.error) {
-        activateSpinner();
+        $("#spinner").show()
         loadAPI(retrieveValidFiles);
     } else {
-        authButton.css('display', 'block');
+        authButton.show();
         authButton.onclick = function() {
             gapi.auth.authorize(
             {
@@ -38,19 +38,20 @@ function handleAuthResult(authResult) {
 function buildList(response) {
     var list = $('#list');
     var html_list = '<ul> '
-    for (var i = 0; i < response.length; i++) {
-        html_list += '<li onclick="fileClick(\'' + response[i].id + '\')"';
+    var p = 0;
+    $(response).each(function(i, x) {
+        html_list += '<li onclick="fileClick(\'' + x.id + '\')"';
         if (i % 2 == 0)
             html_list += 'class="corsim"> ';
         else
             html_list += 'class="cornao"> ';
-        html_list += response[i].title + ' </li>';
-    }
+        html_list +=  x.title + ' </li>';
+    });
     html_list += '</ul> ';
     list.html(html_list);
-    list.height($(window).height() * (6/10));
-    list.css('display', 'block');
-    deactivateSpinner();
+    list.height($(window).height() - 100 - $("#welcome").height());
+    list.show();
+    $("#spinner").hide();
 }
 
 function loadAPI(request) {
@@ -82,7 +83,7 @@ function retrieveValidFiles() {
 }
 
 function fileClick(fileId) {
-    activateSpinner();
+    $("#spinner").show()
     var request = gapi.client.drive.files.get({
         'fileId': fileId
     });
@@ -101,7 +102,8 @@ function fileClick(fileId) {
             xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
             xhr.onload = function() {
                 setEditorValue(xhr.responseText);
-                deactivateSpinner();
+                updateFileStats(resp);
+                $("#spinner").hide()
             };
             xhr.onerror = function() {
                 alert('Error loading file!');
@@ -109,4 +111,13 @@ function fileClick(fileId) {
             xhr.send();
         }
     });
+}
+
+function updateFileStats(file) {
+    var date = file.modifiedDate.split("T");
+    var timeStamp = date[0] + " - " + date[1].split(".")[0];
+    $("#drive-file").html("File loaded: " + file.title + "<br/>" + "Size: " + file.fileSize + "<br/>" 
+            + "Last Modified: " + timeStamp);
+    $("#drive-file").show();
+    $("#list").height($(window).height() - 120 - $("#welcome").height() - $("#drive-file").height());
 }

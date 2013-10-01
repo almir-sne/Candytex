@@ -21,8 +21,8 @@ Here the quick and dirty way to get it running:
 Then restart bash and type "rvm version" to see if it was correctly installed. If rvm is still
 as stupid as the last time I tried to install you may have to add the following lines to your
 .bashrc file (found on your home folder):
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 PATH=$PATH:$HOME/.rvm/bin
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
 If rvm is working properly, type "rvm install 2.0", this will install Ruby 2.0 on your machine,
 after the instalation type "rvm use 2.0" to tell it to run this version.
