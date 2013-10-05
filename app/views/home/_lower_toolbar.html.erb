@@ -11,6 +11,9 @@
       <button type="button" class="btn" title="Download tex file">
         <i class="icon-download-alt"> </i>
       </button>
+      <button type="button" class="btn" onclick="updateOnDrive()" title="Upload tex file to Google Drive" id="drive-update">
+        <i class="icon-upload-alt"></i>
+      </button>
       <button type="button" class="btn" onclick="openfromdisk()" title="Open file from disk">
         <i class="icon-folder-open"> </i>
       </button>
@@ -23,7 +26,7 @@
       <button type="submit" name="commit" class="btn" value="Email" title="Compile and send by email">
         <i class="icon-envelope">  </i>
       </button>
-      <button type="button" class="btn" title="Compile and upload">
+      <button type="button" class="btn" title="Compile and upload to Google Drive">
         <i class="icon-cloud-upload"> </i>
       </button>
       <%= submit_tag 'Generate', :class => "btn btn-primary" %>
