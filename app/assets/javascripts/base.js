@@ -12,7 +12,7 @@ function setup() {
     /* initial config */
     editor.setFontSize(14);
     editor.setPrintMarginColumn(-1);
-    setEditorValue(getTemplate(''));
+    setEditorValue(getTemplate('article'));
     /* file reader handler */
     file_handler = document.getElementById("file-handler");
     file_handler.addEventListener("change", function(event) {
@@ -126,6 +126,10 @@ function switchtheme(theme) {
 
 function openfromdisk() {
     document.getElementById("file-handler").click();
+}
+
+function switchTemplate() {
+    setEditorValue(getTemplate($("#templates").val()));
 }
 
 // p/ navegador de seções

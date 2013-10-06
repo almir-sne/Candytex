@@ -45,5 +45,8 @@
 
   <%= select_tag :fonts, options_for_select(['Font size', :tiny, :scriptsize, :footnotesize, :small, :normalsize, :large, :Large, :LARGE,
       :huge, :Huge]), :onchange => "latexfont()", :style => "width: 118px; margin: 5px;" %>
+  
+  <%= select_tag :templates, options_for_select(['Templates', :article, :letter, :curriculum, :presentation]),
+    :onchange => "switchTemplate()", :style => "width: 118px; margin: 5px;" %>
 </div>
 
