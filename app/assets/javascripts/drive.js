@@ -21,13 +21,13 @@ function handleAuthResult(authResult) {
         loadAPI(retrieveValidFiles);
     } else {
         authButton.show();
-        authButton.onclick = function() {
+        authButton.on('click', function() {
             gapi.auth.authorize({
                 'client_id': CLIENT_ID,
                 'scope': SCOPES,
                 'immediate': false
             }, handleAuthResult);
-        };
+        });
     }
 }
 
@@ -49,9 +49,7 @@ function buildList(response) {
     });
     html_list += '</ul> ';
     list.html(html_list);
-    list.height($(window).height() - 100 - $("#welcome").height());
-    list.show();
-    $("#spinner").hide();
+    displayList();
 }
 
 function loadAPI(request) {
@@ -82,18 +80,20 @@ function retrieveValidFiles() {
 }
 
 function fileClick(fileId) {
-    $("#spinner").show();
+    showDownloadMessage();
     var request = gapi.client.drive.files.get({
         'fileId': fileId
     });
     request.execute(function(resp) {
         var url;
-        if (resp.mimeType == 'text/x-tex' || resp.mimeType == 'text/plain')
+        if (resp.error != null)
+            showDownloadErrorMessage();
+        else if (resp.mimeType == 'text/x-tex' || resp.mimeType == 'text/plain')
             url = resp.downloadUrl;
         else if (resp.mimeType == "application/vnd.google-apps.document")
             url = resp['exportLinks']['text/plain'];
         else
-            alert('Unsuported file format!');
+            showUnsupportedErrorMessage();
         if (url) {
             var accessToken = gapi.auth.getToken().access_token;
             var xhr = new XMLHttpRequest();
@@ -102,10 +102,10 @@ function fileClick(fileId) {
             xhr.onload = function() {
                 setEditorValue(xhr.responseText);
                 updateFileStats(resp);
-                $("#spinner").hide();
+                $("#messages").modal('hide');
             };
             xhr.onerror = function() {
-                alert('Error loading file!');
+                showDownloadErrorMessage();
             };
             xhr.send();
         }
@@ -116,7 +116,7 @@ function updateFileStats(file) {
     var date = file.modifiedDate.split("T");
     var timeStamp = date[0] + " - " + date[1].split(".")[0];
     $("#drive-file").html("File loaded: " + file.title + "<br/>" + "Size: " + file.fileSize + "<br/>"
-            + "Last Modified: " + timeStamp);
+            + "Last Modified: " + timeStamp + "<br/>");
     var b = $("<button>").attr({
         onclick: "fileClick(\"" + file.id + "\")"
     }).addClass("btn btn-primary").appendTo($("#drive-file"));
@@ -126,10 +126,10 @@ function updateFileStats(file) {
     });
     $("#filename").val(trimFileName(file.title));
     $("#drive-file").show();
-    $("#list").height($(window).height() - 120 - $("#welcome").height() - $("#drive-file").height());
 }
 
 function updateOnDrive(id) {
+    showUploadMessage();
     var filename = $("#filename").val() + ".tex";
     if (filename == ".tex") {
         filename = "candy.tex";
@@ -166,10 +166,7 @@ function updateOnDrive(id) {
             },
             'body': multipartRequestBody});
     }
-    var callback = function(file) {
-        console.log(file);
-    };
-    request.execute(callback);
+    request.execute(showUploadResultMessage);
 }
 
 function trimFileName(fileName) {
@@ -177,4 +174,19 @@ function trimFileName(fileName) {
     if(shebang.length > 1)
         shebang.pop();
     return shebang.join();
+}
+
+function showUploadMessage() {
+    resetMessages();
+    $("#uploading").show();
+    $("#modal-spinner").show();
+}
+
+function showUploadResultMessage(resp) {
+    if (resp.error != null)
+        $("#upload-result").html("Error uploading file!");
+    else
+        $("#upload-result").html("Upload to Google Drive successful");
+    resetMessages();
+    $("#upload-result").show();
 }

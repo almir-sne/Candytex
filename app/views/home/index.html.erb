@@ -1,14 +1,14 @@
 <div class="container-fluid">
   <div class="row-fluid">
     <div class="span2">
-      <div id="welcome">
-        Welcome to CandyTeX! <br/>
-        Sweetest LaTeX editor on the Web!
-      </div>
       <button id="authorization" class="btn btn-primary"> Connect with Google Drive!</button>
+      <div class="form-search">
+        <div class="input-append">
+          <input type="text" class="search-query" id="filter">
+          <button class="btn"><i class="icon-search"></i></button>
+        </div>
+      </div>
       <div id="list"> </div>
-      <img alt="Loading..." id="spinner" src="../ajax-loader.gif"></img>
-      <div id="drive-file"> </div>
     </div>
     <div class="span8">
       <%= render :partial => 'toolbar' %>
@@ -17,7 +17,14 @@
         <%= render :partial => 'lower_toolbar' %>
       <% end %>
     </div>
-    <div class="offset2"></div>
+    <div class="span2">
+      <div id="welcome">
+        Welcome to CandyTeX! <br/>
+        Sweetest LaTeX editor on the Web!
+      </div>
+      <div id="drive-file"> </div>
+      <img alt="Loading..." id="spinner" src="/ajax-loader.gif"> </img>
+    </div>
   </div>
 </div>
 

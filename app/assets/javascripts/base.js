@@ -1,20 +1,27 @@
 var editor;
 
 function setup() {
-    /* get textarea and use it to create editor */
+    setupEditor();
+    setupEventListeners();
+    loadCookies();
+    handleClientLoad();
+    cookiesWorker();
+}
+
+function setupEditor() {
     $('#input').height($(window).height() - 60 - $("#toolbar").height() - $("#lower_toolbar").height());
     $('#input').acedInitTA({
         theme: 'eclipse',
         mode: 'latex'
     });
     editor = $($('#input').data('ace-div')).aced();
-
-    /* initial config */
     editor.setFontSize(14);
     editor.setPrintMarginColumn(-1);
     setEditorValue(getTemplate('article'));
-    /* file reader handler */
-    file_handler = document.getElementById("file-handler");
+}
+
+function setupEventListeners() {
+    var file_handler = document.getElementById("file-handler");
     file_handler.addEventListener("change", function(event) {
         var reader = new FileReader();
         reader.onload = function(event) {
@@ -24,14 +31,53 @@ function setup() {
         reader.readAsText(file_handler.files[0]);
     }, false);
     new Konami(function() {
-        setEditorValue(getTemplate('konami'))
+        setEditorValue(getTemplate('konami'));
     });
-    $('.dropdown-menu').find('input').click(function (e) {
+    $('.dropdown-menu').find('input').click(function(e) {
         e.stopPropagation();
     });
-    handleClientLoad();
+    $("#filter").attr({
+        onkeyup: "filterList()"
+    });
 }
 
+function cookiesWorker() {
+    setTimeout("cookiesWorker()", 60000);
+    saveCookies();
+}
+
+function saveCookies() {
+    var exdate = new Date();
+    exdate.setDate(exdate.getDate() + 10);
+    document.cookie = "text=" + escape(editor.getValue()) + "; expires=" + exdate.toUTCString();
+    document.cookie = "filename=" + escape($("#filename").val()) + "; expires=" + exdate.toUTCString();
+}
+
+function loadCookies() {
+    setEditorValue(getCookie("text"));
+    $("#filename").val(getCookie("filename"));
+}
+
+// Source: http://www.w3schools.com/js/js_cookies.asp
+function getCookie(c_name) {
+    var c_value = document.cookie;
+    var c_start = c_value.indexOf(" " + c_name + "=");
+    if (c_start == -1) {
+        c_start = c_value.indexOf(c_name + "=");
+    }
+    if (c_start == -1) {
+        c_value = null;
+    }
+    else {
+        c_start = c_value.indexOf("=", c_start) + 1;
+        var c_end = c_value.indexOf(";", c_start);
+        if (c_end == -1) {
+            c_end = c_value.length;
+        }
+        c_value = unescape(c_value.substring(c_start, c_end));
+    }
+    return c_value;
+}
 
 function italic() {
     insert_on_range("\\textit{", "}");
@@ -104,7 +150,7 @@ function getFontSize() {
 }
 
 function insert_on_range(start, end) {
-    editor.getSession().replace(editor.getSelectionRange(), start + editor.getCopyText() +  end);
+    editor.getSession().replace(editor.getSelectionRange(), start + editor.getCopyText() + end);
     editor.focus();
 }
 
@@ -132,9 +178,60 @@ function switchTemplate() {
     setEditorValue(getTemplate($("#templates").val()));
 }
 
-// p/ navegador de seções
-// gotoLine(Number lineNumber, Number column, Boolean animate)
-//
+function displayList() {
+    var list = $("#list");
+    var filter = $("#filter");
+    list.height($(window).height() - 80 - filter.height());
+    list.show();
+    filter.width(list.width() - 65);
+    $(".form-search").show();
+    $("#spinner").hide();
+}
 
-// toggleCommentLines()
-// Given the currently selected range, this function either comments all the lines, or uncomments all of them.
+function showCompilingMessage() {
+    resetMessages();
+    $("#compiling").show();
+    $("#modal-spinner").show();
+}
+
+function showCompileResultMessage() {
+    resetMessages();
+    $("#compile-result").show();
+}
+
+function resetMessages() {
+    $("#messages .modal-body").children().hide();
+    $("#messages").modal('show');
+}
+
+function showDownloadMessage() {
+    resetMessages();
+    $("#downloading").show();
+    $("#modal-spinner").show();
+}
+
+function showDownloadErrorMessage() {
+    resetMessages();
+    $("#download-error").show();
+}
+
+function showUnsupportedErrorMessage() {
+    resetMessages();
+    $("#unsupported-error").show();
+}
+
+function filterList() {
+    var val = $("#filter").val();
+    $("#list ul li").show();
+    $("#list ul li").each(function(i, e) {
+        if ($(e).text().indexOf(val) == -1)
+            $(e).hide();
+    });
+}
+
+function toggleListElement(element) {
+    if ($(element).text().indexOf($("#filter").val()) == -1)
+        $(element).hide();
+    else
+        $(element).show();
+}

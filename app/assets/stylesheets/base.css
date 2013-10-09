@@ -56,7 +56,7 @@ html,body { margin: 0px; padding: 0px; background-color: ghostwhite;}
     overflow-y: scroll;
     border: 3px inset #3399ff;
     display: none;
-    margin: 10px;
+    margin: 15px 0px;
     padding: 10px;
     border-radius: 10px;
     height: 100px;
@@ -110,6 +110,7 @@ html,body { margin: 0px; padding: 0px; background-color: ghostwhite;}
     width: 90%;
     margin: 5px;
     margin-left: 5%;
+    display: none;
 }
 
 #drive-file {
@@ -132,4 +133,13 @@ html,body { margin: 0px; padding: 0px; background-color: ghostwhite;}
 ::-webkit-scrollbar-thumb {
     border-radius: 10px;
     background-color: #3399ff;
+}
+
+.form-search {
+    margin: 15px 0;
+    display: none;
+}
+
+.form-search .search-query {
+    width: 75%
 }
