@@ -1,0 +1,14 @@
+<div id="mailer" class="modal hide fade" tabindex="-1" role="dialog" style="margin-top: 10%">
+  <div class="modal-body">
+    <%= label_tag :email, "Email" %>
+    <%= email_field_tag :email, "", :style => "width: 95%", :placeholder => "example@email.com"%> <br/>
+    <%= label_tag :subject, "Subject"%>
+    <%= text_field_tag :subject, "", :style => "width: 95%", :placeholder => "Subject"%> <br/>
+    <%= label_tag :message, "Message" %>
+    <%= text_area_tag :message, "", :style => "width: 95%", :placeholder => "Message"%> <br/>
+    <button type="submit" name="commit" class="btn" value="Email" title="Compile and send by email"
+            style="margin-bottom: 10px" onclick="$('#mailer').modal('hide');">
+      <i class="icon-envelope">  </i>
+    </button>
+  </div>
+</div>

@@ -34,5 +34,5 @@ AcedRails.configure do |config|
   # select extensions:
   # available extensions:
   #   searchbox, spellcheck, static_highlight, textarea
-  config.exts = [:textarea]
+  config.exts = [:textarea, :spellcheck, :searchbox]
 end

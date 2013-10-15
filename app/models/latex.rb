@@ -1,7 +1,7 @@
 class Latex
 
   def self.generate_pdf(code, filetype)
-    dir=File.join(Rails.root,'tmp','rails-latex',"#{Process.pid}-#{Thread.current.hash}")
+    dir=File.join(Rails.root,'tmp','latex',"#{Process.pid}-#{Thread.current.hash}")
     input=File.join(dir,'input.tex')
     FileUtils.mkdir_p(dir)
     File.open(input,'wb') {|io| io.write(code) }
@@ -33,7 +33,7 @@ class Latex
   def self.compile(filetype)
     case filetype
     when "pdf"
-      exec "pdflatex", "input.tex"
+      exec "pdflatex", "-halt-on-error", "-shell-escape", "-interaction", "batchmode", "input.tex"
     when "dvi"
       exec 'latex', "input.tex"
     when "html"

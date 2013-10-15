@@ -35,6 +35,8 @@ function buildList(response) {
     var list = $('#list');
     var html_list = '<ul> ';
     var p = 0;
+    if(response == null)
+        showDownloadErrorMessage();
     $(response).each(function(i, x) {
         if (x.mimeType == "text/x-tex" || x.mimeType == "application/vnd.google-apps.document" ||
                 x.mimeType == 'text/plain') {

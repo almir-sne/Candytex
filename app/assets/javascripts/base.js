@@ -39,6 +39,12 @@ function setupEventListeners() {
     $("#filter").attr({
         onkeyup: "filterList()"
     });
+//    Workaround for search buttons commiting form
+    $(document).on("mouseover", "button.ace_searchbtn", function() {
+        $(".ace_searchbtn").attr({
+            type: "button"
+        });
+    });
 }
 
 function cookiesWorker() {
@@ -77,105 +83,6 @@ function getCookie(c_name) {
         c_value = unescape(c_value.substring(c_start, c_end));
     }
     return c_value;
-}
-
-function italic() {
-    insert_on_range("\\textit{", "}");
-}
-
-function bold() {
-    insert_on_range("\\textbf{", "}");
-}
-
-function superscript() {
-    insert_on_range("\\^{", "}");
-}
-
-function subscript() {
-    insert_on_range("\\_{", "}");
-}
-
-function underline() {
-    insert_on_range("\\underline{", "}");
-}
-
-function alignleft() {
-    insert_on_range("\\begin{flushleft}\n", "\n\\end{flushleft}");
-}
-
-function alignright() {
-    insert_on_range("\\begin{flushright}\n", "\n\\end{flushright}");
-}
-
-function aligncenter() {
-    insert_on_range("\\begin{center}\n", "\n\\end{center}");
-}
-
-function latexfont() {
-    var font = $('#fonts').val();
-    if (font != 'Font size')
-        insert_on_range("{\\" + font + " ", "}");
-}
-
-function latexSection() {
-    var section = $('#section').val();
-    if (section != 'Sectioning')
-        insert_on_range("\\" + section + "{", "}");
-}
-
-function createTable() {
-    insert_on_range("\\begin{table}\n\n \\begin{tabular}\n\n \\end{tabular}\n\n \\caption{", "}\n\\end{table}");
-}
-
-function createBullet() {
-    insert_on_range("\\begin{itemize}\n \\item ", "\n \\item \n\\end{itemize}");
-}
-
-function createNumbered() {
-    insert_on_range("\\begin{enumerate}\n \\item ", "\n \\item \n\\end{enumerate}");
-}
-
-function fontplus() {
-    editor.setFontSize(getFontSize() + 2);
-    editor.focus();
-}
-
-function fontminus() {
-    editor.setFontSize(getFontSize() - 2);
-    editor.focus();
-}
-
-function getFontSize() {
-    return parseInt(editor.container.style.fontSize);
-}
-
-function insert_on_range(start, end) {
-    editor.getSession().replace(editor.getSelectionRange(), start + editor.getCopyText() + end);
-    editor.focus();
-}
-
-// "Workaround" because editor.destroy() doesn't work
-function cleareditor() {
-    setEditorValue('');
-}
-
-function setEditorValue(val) {
-    editor.setValue(val, 0);
-    editor.focus();
-    editor.clearSelection();
-}
-
-function switchtheme(theme) {
-    editor.setTheme("ace/theme/" + theme.options[theme.selectedIndex].value);
-    editor.focus();
-}
-
-function openfromdisk() {
-    document.getElementById("file-handler").click();
-}
-
-function switchTemplate() {
-    setEditorValue(getTemplate($("#templates").val()));
 }
 
 function displayList() {
@@ -235,3 +142,30 @@ function toggleListElement(element) {
     else
         $(element).show();
 }
+
+// http://stackoverflow.com/questions/12718210/how-to-save-file-from-textarea-in-javascript-with-a-name
+var Download = {
+    click : function(node) {
+        var ev = document.createEvent("MouseEvents");
+        ev.initMouseEvent("click", true, false, self, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+        return node.dispatchEvent(ev);
+    },
+    encode : function(data) {
+            return 'data:application/octet-stream;base64,' + btoa( data );
+    },
+    link : function(data, name){
+        var a = document.createElement('a');
+        a.download = name || self.location.pathname.slice(self.location.pathname.lastIndexOf('/')+1);
+        a.href = data || self.location.href;
+        return a;
+    }
+};
+Download.save = function(data, name){
+    this.click(
+        this.link(
+            this.encode( data ),
+            name
+        )
+    );
+};
+

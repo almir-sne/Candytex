@@ -2,9 +2,8 @@ Candytex::Application.routes.draw do
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
-  resources :home do
+  resources :home, :only => :index do
     collection do
-      get :index
       post :print
     end
   end
