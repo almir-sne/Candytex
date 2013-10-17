@@ -1,0 +1,9 @@
+<div id="log" class="modal hide fade" tabindex="-1" role="dialog">
+  <div class="modal-body">
+    <%= simple_format(session[:log]) unless session[:log].blank? %>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+  </div>
+</div>

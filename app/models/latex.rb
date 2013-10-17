@@ -1,5 +1,5 @@
 class Latex
-
+  
   def self.generate_pdf(code, filetype)
     dir=File.join(Rails.root,'tmp','latex',"#{Process.pid}-#{Thread.current.hash}")
     input=File.join(dir,'input.tex')
@@ -21,13 +21,14 @@ class Latex
         end
       end)
     if File.exist?(input.sub(/\.tex$/,".#{filetype}"))
-      FileUtils.mv(input.sub(/\.tex$/,'.log'),File.join(dir,'..','input.log'))
       result=File.read(input.sub(/\.tex$/,".#{filetype}"))
-      FileUtils.rm_rf(dir)
+      status = 'ok'
     else
-      raise "pdflatex failed: See #{input.sub(/\.tex$/,'.log')} for details"
+      result=File.read(input.sub(/\.tex$/,'.log'))
+      status = 'error'
     end
-    result
+    FileUtils.rm_rf(dir)
+    {file: result, status: status}
   end
 
   def self.compile(filetype)
@@ -63,7 +64,6 @@ class Latex
       "text/richtext"
     when "html"
       "text/html"
-
     end
   end
 end

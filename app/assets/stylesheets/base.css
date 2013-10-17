@@ -143,3 +143,8 @@ html,body { margin: 0px; padding: 0px; background-color: ghostwhite;}
 .form-search .search-query {
     width: 75%
 }
+
+#show-log {
+    margin: 15px 15px;
+    display: none;
+}

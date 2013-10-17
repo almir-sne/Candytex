@@ -25,6 +25,7 @@
       </div>
       <div id="drive-file"> </div>
       <img alt="Loading..." id="spinner" src="/ajax-loader.gif"> </img>
+      <button id="show-log" href="#log" class="btn  btn-primary" data-toggle="modal"> Show log </button>
     </div>
   </div>
 </div>
@@ -33,6 +34,4 @@
 
 <%= render :partial => 'messages' %>
 
-<div id="callback" class="modal hide fade" tabindex="-1" role="dialog">
-  
-</div>
+<%= render :partial => 'log' %>
