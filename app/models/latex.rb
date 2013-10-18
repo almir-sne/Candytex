@@ -34,9 +34,9 @@ class Latex
   def self.compile(filetype)
     case filetype
     when "pdf"
-      exec "pdflatex", "-halt-on-error", "-shell-escape", "-interaction", "batchmode", "input.tex"
+      exec "pdflatex", "-interaction", "batchmode", "input.tex"
     when "dvi"
-      exec 'latex', "input.tex"
+      exec 'latex', "-interaction", "batchmode", "input.tex"
     when "html"
       exec 'hevea', 'input.tex'
     when "rtf"

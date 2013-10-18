@@ -4,9 +4,9 @@ function setup() {
     setupEditor();
     setupEventListeners();
     loadCookies();
-    handleClientLoad();
-    cookiesWorker();
     handleMessages();
+    cookiesWorker();
+    handleClientLoad();
 }
 
 function setupEditor() {
@@ -32,7 +32,7 @@ function setupEventListeners() {
         reader.readAsText(file_handler.files[0]);
     }, false);
     new Konami(function() {
-        setEditorValue(getTemplate('konami'));
+        $("#mikuclock").show();
     });
     $('.dropdown-menu').find('input').click(function(e) {
         e.stopPropagation();

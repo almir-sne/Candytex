@@ -32,25 +32,25 @@ function handleAuthResult(authResult) {
 }
 
 function buildList(response) {
-    var list = $('#list');
-    var html_list = '<ul> ';
+    var ul = $('<ul>');
+    var li;
     var p = 0;
-    if(response == null)
+    if (response == null)
         showDownloadErrorMessage();
     $(response).each(function(i, x) {
         if (x.mimeType == "text/x-tex" || x.mimeType == "application/vnd.google-apps.document" ||
                 x.mimeType == 'text/plain') {
-            html_list += '<li onclick="fileClick(\'' + x.id + '\')"';
+            li = $("<li>").attr({
+                onclick: "fileClick('" + x.id + "')"
+            }).text(x.title).appendTo(ul);
             if (p % 2 == 0)
-                html_list += 'class="corsim"> ';
+                li.addClass("corsim");
             else
-                html_list += 'class="cornao"> ';
-            html_list += x.title + ' </li>';
+                li.addClass("cornao");
             p++;
         }
     });
-    html_list += '</ul> ';
-    list.html(html_list);
+    ul.appendTo($('#list'));
     displayList();
 }
 
@@ -173,7 +173,7 @@ function updateOnDrive(id) {
 
 function trimFileName(fileName) {
     var shebang = fileName.split(".");
-    if(shebang.length > 1)
+    if (shebang.length > 1)
         shebang.pop();
     return shebang.join();
 }

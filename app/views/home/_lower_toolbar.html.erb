@@ -8,7 +8,7 @@
 
   <div class="btn-toolbar" style="margin-bottom: 10px; margin-top: 0; float: right">
     <div class="btn-group">
-      <button type="button" class="btn" title="Download tex file">
+      <button type="submit" name="commit" value="Download" class="btn" title="Download tex file">
         <i class="icon-download-alt"> </i>
       </button>
       <button type="button" class="btn" onclick="updateOnDrive()" title="Upload tex file to Google Drive" id="drive-update">
@@ -25,9 +25,6 @@
     <div class="btn-group">
       <button type="button" href="#mailer" class="btn" data-toggle="modal" title="Compile and send by email">
         <i class="icon-envelope">  </i>
-      </button>
-      <button type="button" class="btn" title="Compile and upload to Google Drive">
-        <i class="icon-cloud-upload"> </i>
       </button>
       <%= submit_tag 'Generate', :class => "btn btn-primary" %>
     </div>
