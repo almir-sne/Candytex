@@ -13,14 +13,14 @@ class HomeController < ApplicationController
       filename = 'candy'
     end
     filetype = params[:filetype]
-    filename = "#{filename}.#{filetype}"
     if params[:commit] == 'Download'
-      result = input
+      result = {file: input, status: 'ok'}
       filetype = 'tex'
     else
       result = Latex.generate_pdf(input, filetype)
     end
     if (result[:status] == 'ok')
+      filename = "#{filename}.#{filetype}"
       if params[:commit] == 'Email'
         email = params[:email]
         message = params[:message] || "I like candy!"
