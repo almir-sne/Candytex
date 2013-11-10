@@ -141,7 +141,7 @@ function updateOnDrive(id) {
     var close_delim = "\r\n--" + boundary + "--";
     var metadata = {
         'title': filename,
-        'mimeType': 'text/x-tex'
+        'mimeType': 'text/plain'
     };
     var base64Data = btoa(editor.getValue());
     var multipartRequestBody = delimiter + 'Content-Type: application/json\r\n\r\n' +

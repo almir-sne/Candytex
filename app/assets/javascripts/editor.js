@@ -96,3 +96,11 @@ function openfromdisk() {
 function switchTemplate() {
     setEditorValue(getTemplate($("#templates").val()));
 }
+
+function editorUndo() {
+    editor.undo();
+}
+
+function editorRedo() {
+    editor.redo();
+}
